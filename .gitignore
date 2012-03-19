@@ -1,0 +1,22 @@
+# temporary files
+*~
+
+# gradle files
+.gradle/
+build/
+
+# idea files
+*.iml
+*.ipr
+*.iws
+out/
+
+# eclipse files
+.classpath
+.settings/
+.project
+
+# maven files
+target/
+
+

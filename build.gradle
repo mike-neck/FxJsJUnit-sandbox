@@ -1,0 +1,42 @@
+def langs = ['java']
+
+langs.each {
+    apply plugin: it
+}
+apply plugin : 'idea'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+group = 'org.mikeneck.jfx.fxjsjunit'
+version = '0.0.1'
+
+def rootPosition = project.properties.projectDir.toString().count(File.separator)
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'junit:junit-dep:4.10'
+    compile 'org.hamcrest:hamcrest-library:1.2.1'
+    compile 'org.eclipse.jetty:jetty-server:8.1.1.v20120215'
+    compile 'org.ow2.spec.ee:ow2-servlet-3.0-spec:1.0.10'
+    compile ('org.slf4j:slf4j-simple:1.6.4')
+    compile files("${System.getenv()['JAVA_FX_HOME']}/rt/lib/jfxrt.jar".replace('"', ''))
+}
+
+tasks.withType(AbstractCompile).each {it.options.encoding='UTF-8'}
+
+task structure << {
+    def dirs = []
+    sourceSets.all {set ->
+        langs.each {lang ->
+            dirs << "src/${set.name}/${lang}/${project.group.replace('.', '/')}"
+        }
+        dirs << "src/${set.name}/resources"
+    }
+    dirs.each {dirName ->
+        ant.mkdir(dir : dirName)
+    }
+}
+
