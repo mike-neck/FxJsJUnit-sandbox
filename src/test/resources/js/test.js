@@ -1,0 +1,3 @@
+function testName() {
+    return 'test';
+}
